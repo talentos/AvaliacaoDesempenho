@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html ng-app="estagiarios">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Plugins -->
+<link rel="stylesheet" type="text/css" href="../lib/bootstrap/css/bootstrap.min.css">
+
+<script src="../lib/angular/angular.min.js"></script>
+
+
+<!--Fonts-->
+
+
+<!--Folha de estilos-->
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+<!--JS-->
+<script src="../js/app.js"></script>
+
+<script src="../js/controllers/avaliarEstagiarioCtrl.js"></script>
+
+<!---->
+
+
+<title>Avaliação de Desempenho</title>
+
+</head>
+		
+<body>
+	<div class="container">	
+		<div class="row">
+				
+			<div class="col-sm-10">
+
+				<h1 class="pageTitle">Avaliação do Estagiário</h1>	
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
+				<h3>Bruno da Costa Silva</h3>
+			</div>
+			<div class="col-sm-offset-1 col-sm-2">
+				<h3>Ciclo: 2</h3>
+			</div>
+			<div  class="col-sm-3">
+				<h3>Cargo: Programador</h3>
+			</div>
+		</div> 
+
+		<div  ng-controller="avaliarEstagiario" class="avaliacaoForm">
+			<form name="avaliacaoForm" ng-repeat="questao in getQuestoes()" ng-show="current==$index" class="panel panel-primary">
+			  <!-- Default panel contents -->
+			  <div class="panel-heading">{{questao.competencia}}</div>
+			  <div class="panel-body bg-info">
+			    <p>{{questao.texto}}</p>
+			  </div>
+
+			  <!-- List group -->
+			  <ul class="list-group">
+			    <li class="list-group-item"><span class="indicadorText">{{questao.indicador1}}</span>
+			    	<select ng-required="true" class="indicadorValue form-control" ng-model="indicador1" name="indicador1">
+			    		<option value=""></option>
+			    		<option value="1">1</option>
+			    		<option value="2">2</option>
+			    		<option value="3">3</option>
+			    		<option value="4">4</option>
+			    	</select>
+			    </li>
+			    <li class="list-group-item"><span class="indicadorText">{{questao.indicador2}}</span>
+			    	<select ng-required="true" class="indicadorValue form-control" ng-model="indicador2"  name="indicador2">
+			    		<option value="" defaut></option>
+			    		<option value="1">1</option>
+			    		<option value="2">2</option>
+			    		<option value="3">3</option>
+			    		<option value="4">4</option>
+			    	</select>
+			    </li>
+			    <li class="list-group-item"><span class="indicadorText">{{questao.indicador3}}</span>
+			    	<select ng-required="true" class="indicadorValue form-control" ng-model="indicador3"  name="indicador3">
+			    		<option value="" defaut></option>
+			    		<option value="1">1</option>
+			    		<option value="2">2</option>
+			    		<option value="3">3</option>
+			    		<option value="4">4</option>
+			    	</select>
+			    </li>
+			    <li class="list-group-item"><span class="indicadorText">{{questao.indicador4}}</span>
+			    	<select ng-required="true" class="indicadorValue form-control" ng-model="indicador4"  name="indicador4">
+			    		<option value="" defaut></option>
+			    		<option value="1">1</option>
+			    		<option value="2">2</option>
+			    		<option value="3">3</option>
+			    		<option value="4">4</option>
+			    	</select>
+			    </li>
+			  </ul>
+			
+			<ul class="pager">
+			    <li ><button class="pager__button" ng-disabled="avaliacaoForm.$invalid " ng-class="!teste ? 'btn btn-primary' : 'btn btn-default'" ng-show="!(current==0)" ng-click="previous()">Anterior</button></li>
+			    
+			    <li ><button class="pager__button"  ng-show='!(current==5)' ng-disabled="teste=(avaliacaoForm.$invalid)" ng-class="!teste ? 'btn btn-primary' : 'btn btn-default'" ng-click="next()">Próximo</button></li>
+
+			    <li ng-controller="redirect"><button class="pager__button" ng-show='(current==5)' ng-disabled="teste=(avaliacaoForm.$invalid)" ng-class="!teste ? 'btn btn-primary' : 'btn btn-default'" ng-click="enviarAvaliacao()">Concluir</button></li>
+			</ul>
+			</form>
+		
+		</div>
+
+			<div class="row btnArea">
+				<div class="col-sm-2" ng-controller="redirect">
+					<button id="voltarEstagiarios" type="button" ng-click="voltarListagemEstagiarios()" class="voltar btn btn-default btn-block"><span class="glyphicon glyphicon-chevron-left"></span>Voltar para Listagem</button>
+
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+</body>
+</html>

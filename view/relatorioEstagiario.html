@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html ng-app="estagiarios">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Plugins -->
+<link rel="stylesheet" type="text/css" href="../lib/bootstrap/css/bootstrap.min.css">
+
+<script src="../lib/angular/angular.min.js"></script>
+
+
+<!--Fonts-->
+
+
+<!--Folha de estilos-->
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+<!--JS-->
+<script src="../js/app.js"></script>
+
+<script src="../js/controllers/relatorioEstagiarioCtrl.js"></script>
+
+<script src="../js/directives/dateNowDirective.js"></script>
+
+
+
+<!---->
+
+
+<title>Avaliação de Desempenho</title>
+
+</head>
+		
+<body>
+	<div class="container">	
+		
+		<div class="row">					
+			<div class="col-sm-8">
+				<img class="logo" src="../img/CM.png">
+				<h4 class="pageTitle">GESTÃO DE DESEMPENHO - PROGRAMA DE ESTÁGIO</h4>
+			</div>
+		</div>
+		<header>
+			<div class="row">
+				<div class="col-sm-12">
+					<h4 class="avaliacaoTitle bg-info">AVALIAÇÃO DE COMPETÊNCIAS</h4>
+					<h4 class="avaliacaoSubTitle">Relatório Individual</h4>
+				</div>
+			</div> 
+			<div class="row relatorioHeader">
+				<div class="col-sm-4">
+					<label>Estagiário(a):</label> Natália Chagas<br>
+					<label>Ciclo:</label> 2<br>
+					<label>Nível de Bolsa Progressiva (Atual):</label> II<br>
+				</div>
+				<div class="col-sm-3">
+					<label>Cargo:</label> Programador<br>
+					<label>Gestor:</label> Maria Aparecida
+				</div>
+				<div class="col-sm-3">
+					<label>Data da Avaliação: </label><span date-now="dd/MM/yyyy"></span>
+				</div>
+			</div>
+		</header>
+		<main class="relatorio">
+			<div class="row">
+				<table class="table table-striped relatorio__table">
+					<tr>
+						<th></th>
+						<th>COMPETÊNCIAS</th>
+						<th>MÉDIA</th>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>COMPETÊNCIA TÉCNICA</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>AUTOMOTIVAÇÃO</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>FOCO EM RESULTADO</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>FOCO NO CLIENTE</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>COMUNICAÇÃO</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td>TRABALHO EM EQUIPE</td>
+						<td>0</td>
+					</tr>
+				</table>
+				<div class="row relatorio__mediaArea">
+					<div class="col-sm-offset-2 col-sm-8 relatorio__mediaArea__media">
+						<label>Média da avaliação:</label> 0,0
+					</div>
+				</div>
+			</div>
+			<div class="row"></div>
+		</main>
+		<footer class="relatorio__info">
+			Média mínima para alcançar mudança de nível de bolsa: 2,8 <br>
+			Média máxima para alcançar mudança de nível de bolsa: 4,0<br><br>
+			<label>Resultado da avaliação:</label> Aprovado para o nível de bolsa III
+		</footer>
+
+
+
+		<div class="row btnArea noPrint">
+			<div class="col-sm-2" ng-controller="redirect">
+				<button onClick='window.print()' class="btn btn-info btn-block">Imprimir</button>
+				<button id="voltarEstagiarios" type="button" ng-click="voltarListagemEstagiarios()" class="voltar btn btn-default btn-block"><span class="glyphicon glyphicon-chevron-left"></span>Voltar para Listagem</button>
+				
+			</div>
+		</div>
+
+
+		
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+html, body{
+	height:100%; /* aqui definimos que o html e o body terão altura de 100% */
+	margin:0;
+	padding:0 !important;
+	overflow-x:hidden;
+
+	font-size: 16px;
+}
+
+@media (max-width: 768px) {
+	html, body{
+		font-size: 12px;
+	}
+}
+
+h1,h2,h3{
+	margin:0;
+	padding:0;
+}
+a:link{ 
+ 	text-decoration:none; 
+}
+
+.pageTitle{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+label{
+	line-height: 15px;
+}
+
+.btn{
+	font-weight: bold;
+}
+
+/*-------------Estagiários-------------------*/
+
+.viewEstagiarios{
+	margin-top: 30px;
+	
+}
+@media (max-width: 768px) {
+	.viewEstagiarios{
+		text-align: center;
+	}
+
+}
+
+.preCombobox,.combobox{
+	display: inline-block;
+	margin-top: 5px;
+}
+@media (max-width: 768px) {
+	.preCombobox,.combobox{
+		margin-top: 25px;
+	}
+}
+
+.combobox{
+	width:170px;
+}
+
+@media (max-width: 768px) {
+	.combobox option{
+		padding: 20px 5px;
+		border-top: 1px solid black;
+	}
+}
+
+.blockField{
+	white-space: nowrap;
+	margin-top: 5px;
+}
+
+/*Input Placeholders*/
+ 
+/*Tabela de Estagiarios*/
+.table-responsive{
+	display: block;
+	height: 400px;
+	width: 100%;
+}
+
+.statusLabel{
+	margin:0;
+	padding: 0;
+	font-size: .8em;
+}
+.status{
+	width: 70%;
+	height: 25px;
+	margin: 0;
+	padding: 3px;
+	font-size: .8em;
+}
+
+.viewEstagiarios__table{
+	margin-top: 20px;
+	text-align: left;
+}
+
+.viewEstagiarios__table__labels th{
+	background-color: #bad6ef;
+	
+}
+.viewEstagiarios__Table__options span{
+	font-size: 1.3em;
+	cursor: pointer;
+	margin:0 4px;
+}
+.relatorioIcon{
+	color:#f2cf6d;
+}
+.avaliarIcon{
+	color:#8dcc74;
+}
+.editarIcon{
+	color:#87cbed;
+}
+.desligarIcon{
+	color:#f2a7a7;
+}
+@media (max-width: 768px) {
+	td .glyphicon{
+		font-size: 3em;
+		margin:10px;
+	}
+}
+/*Desligamento Estagiario*/
+.estagiarioName{
+	font-weight: bold;
+}
+
+/*CENTRALIZA MODAL*/
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/*-------------cadastrarEstagiarios/editarEstagiario-------------------*/
+
+.btnArea button{
+	display: block;
+	height: 50px;
+	margin-bottom: 20px;
+}
+/*Validacao do formulario*/
+@media (min-width: 768px) {
+	.fieldAlert{
+		height: 35px;
+		padding:6px 10px;
+		position: absolute; 
+	}
+	.estagiarioForm label{
+		margin-top: 15px;
+	}
+
+}
+/*------------avaliarEstagiario---------------*/
+
+.avaliacaoForm{
+	margin-top: 50px;
+}
+.avaliacaoForm__text{
+	
+}
+
+.indicadorText{
+	display:inline-block;
+	width: 92%;
+}
+.indicadorValue{
+	display: inline-block;
+	width:6%;
+	min-width: 50px;
+	height: 30px;
+	padding: 4px;
+	text-align: center;
+
+}
+
+
+@media (max-width: 768px) {
+	.indicadorText{
+		text-align: center;
+	}
+	.indicadorValue{
+		width:40%;
+		height: 40px;	
+	}
+	.indicadorValue option{
+		margin:10px;
+		font-size: 1.5em;
+	}
+
+}
+/*-------------avaliacaoTitle-------------*/
+.logo{
+	display: block;
+	
+	
+}
+.avaliacaoTitle{
+	text-align:center;
+	padding: 5px;
+	font-weight: bold;
+}
+.avaliacaoSubTitle{
+	text-align:center;
+	font-weight: bold;
+	margin-top: 35px;
+}
+.relatorioHeader{
+	margin-top: 20px;
+}
+.relatorio{
+	margin-top: 20px;
+}
+	.relatorio__table td:last-child{
+		padding-left: 30px;
+	}
+	.relatorio__mediaArea{
+		margin: 50px 0;
+
+	}
+		.relatorio__mediaArea__media{
+			text-align: center;
+			border-top:1px solid black;
+			border-bottom: 1px solid black;
+			padding: 5px 0;
+		}
+	.relatorio__info{
+		margin: 25px 0;
+	}
+
+@media print{ 
+    .noPrint { 
+    	display:none;
+    } 
+}              
+
+
+
+
+
+
+
+
+
