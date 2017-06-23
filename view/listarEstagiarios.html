@@ -1,0 +1,132 @@
+<div class="container">	
+		<div class="row">
+				
+			<div class="col-sm-12">
+				<h1 class="pageTitle">Estagiários</h1>					
+				<button id="cadastrarEstagiario" onclick="window.location ='#/cadastrarEstagiario'" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Cadastrar</button>		
+				
+			</div>
+		</div>	
+
+		<div class="row feedback">
+				
+			<div class="col-sm-12">
+
+				<p class="feedback__message bg-success"></p>
+			</div>
+		</div>	
+
+		<div class="viewEstagiarios" ng-controller="listaEstagiariosCtrl" >
+
+
+			<div class="row">
+
+				<div class="col-sm-10" >
+
+			
+					<span class="blockField" >
+						<span class="preCombobox">Estagiários da unidade</span>					
+
+						<select class="form-control combobox"  name="unidade"  ng-model="selectedUnidade" ng-change="getEstagiarios(selectedUnidade.id); getSetoresCargos(selectedUnidade.id)" ng-options="unidade.nome for unidade in getUnidades() | orderBy:name">
+						    <option value="" default class="select-default">Escolha a Unidade</option>		  	
+						</select>
+					 </span>
+					
+					<span class="blockField">
+						<span class="preCombobox">do setor de</span>
+				
+						<select class="form-control combobox" name="setor" ng-disabled="!selectedUnidade" ng-model="selectedSetor" ng-options="setor.setor for setor in setores |unique:'setor'| orderBy:name">
+							
+						    <option value="" default class="select-default">Todos</option>
+						</select>
+
+					</span>
+
+					<span class="blockField">
+
+						<span class="preCombobox">no cargo de</span>
+
+						<select class="form-control combobox" name="cargo" ng-disabled="!selectedUnidade" ng-model="selectedCargo" ng-options="setor.cargo for setor in setores | unique:'cargo' | orderBy:name">
+						    <option value="">Todos</option>				  
+						</select>
+
+					</span>				
+				</div>
+
+				<div class="col-sm-1">
+					<span class="blockField">
+						<select name="status"
+					      ng-options="option.value as option.name for option in statusOptions.availableOptions track by option.value" class="form-control combobox" ng-model="statusOptions.selectedStatus">
+					      	<option value="" class="hide">Ativos</option>
+					      </select>
+
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="table-responsive viewEstagiarios__table__header">
+						<table class="table table-striped table-hover table-fixed" >
+							<thead>
+								<tr class="viewEstagiarios__table__labels">
+									<th class="col-xs-3">Nome</th>
+									<th class="col-xs-1">Admissão</th>
+									<th class="col-xs-1">Última Av.</th>
+									<th class="col-xs-2">Próxima Av.</th>
+									<th class="col-xs-1">Nível</th>
+									<th class="col-xs-2">Gestor</th>
+									<th class="col-xs-2"></th>
+								</tr>
+							<thead>
+						</table>
+					</div>
+
+					<div class="table-responsive viewEstagiarios__table">
+						<table class="table table-striped table-hover table-fixed">
+							<tbody>
+								<tr ng-repeat="estagiario in estagiarios | filter:{setor:selectedSetor.setor} | filter:{cargo:selectedCargo.cargo} | orderBy:'nome'"  ng-class="{
+								success:avaliar&&estagiario.status,danger:estagiario.status==false, hide:statusOptions.selectedStatus==(estagiario.status==false)}">
+								   	<td class="col-xs-3">{{estagiario.nome}}</td>
+									<td class="col-xs-1">{{estagiario.dataAdmissao |date:'dd/MM/yyyy'}}</td>
+									<td class="col-xs-1">{{estagiario.dataUltimaAvaliacao |date:'dd/MM/yyyy'}}</td>
+									<td class="col-xs-2">{{getProxAvaliacao(estagiario.dataAdmissao,estagiario.dataUltimaAvaliacao)|date:'dd/MM/yyyy'}}</td>
+									<td class="col-xs-1">{{estagiario.nivel}}</td>
+									<td class="col-xs-2">{{estagiario.gestor}}</td>
+									<td class=" col-xs-2 viewEstagiarios__Table__options">
+										
+											<div class="col-xs-3">
+												<span onclick="window.location ='#/relatorioEstagiario'" title="Relatório" alt="Relatório" class="relatorioIcon glyphicon glyphicon-list"> </span>
+											</div>
+											<div class="col-xs-3">
+												<span title="Avaliar"  onclick="window.location ='#/avaliarEstagiario'" ng-if="avaliar&&estagiario.status==true" alt="Avaliar" class="avaliarIcon glyphicon glyphicon-education"> </span>
+											</div>
+											<div class="col-xs-3" ng-controller="editarEstagiarioCtrl">
+												<span ng-click="editarEstagiario(estagiario.id)" title="Editar" alt="Editar" ng-if="estagiario.status==true" class="editarIcon glyphicon glyphicon-pencil"></span>
+											</div>
+											<div class="col-xs-2">
+												<span ng-click="reativarEstagiario(estagiario.id)" title="Reativar" ng-if="estagiario.status==false" alt="Reativar" class="reativarIcon glyphicon glyphicon-off"></span>
+												<span ng-click="desligarEstagiario(estagiario.id)" title="Desligar" ng-if="estagiario.status==true" alt="Desligar" class="desligarIcon glyphicon glyphicon-remove"></span>
+											</div>
+										
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>	
+
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	    	<div class="modal-body">
+		       <p>Tem certeza que deseja desligar o(a) estagiário(a) <span class="estagiarioName"></span>?</p>
+		    </div>
+		    <div class="modal-footer">
+		       <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		       <button id="desligar" type="button" class="btn btn-danger">Desligar</button>
+		    </div>
+	    </div>
+	  </div>
+	</div>
