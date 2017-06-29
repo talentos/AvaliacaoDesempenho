@@ -22,11 +22,11 @@
 			</div>
 
 			<div class="row">
-			{{param}}
-				
+	
 				<div class="col-sm-7">	
-					<label for="nome">Nome:</label>
-    				<input  type="text" ng-disabled="cadastroSuccess" placeholder="Nome Completo" class="form-control" ng-required="true" ng-minlength="10" ng-model="estagiarioInfo.nome" name="nome"  >
+					<label for="nome">Nome:</label> <span ng-if="estagiarioForm.nome.$pristine">{{estagiarioInfo.nome}}</span>
+    				<input  type="text" ng-disabled="cadastroSuccess" placeholder="Nome Completo" class="form-control" value="" ng-minlength="10" ng-model="estagiarioInfo.nome" name="nome"  >
+
     				<div ng-show="estagiarioForm.nome.$invalid && estagiarioForm.nome.$dirty" class="fieldAlert alert alert-danger ">
     					Entre com o nome completo.
     				</div>
@@ -34,8 +34,9 @@
     								
 					<br>
 					
-    				<label for="cargo">Cargo:</label>			
-    				<select ng-options="cargo.nome for cargo in cargos track by cargo.nome" ng-required="true" ng-model="" class="form-control" name="cargo">
+    				<label for="cargo">Cargo: </label> <span ng-if="estagiarioForm.cargo.$pristine">{{estagiarioInfo.cargo}}</span>
+    							
+    				<select ng-disabled="gestorFieldDisabled" ng-options="cargo.id as cargo.nome for cargo in cargos track by cargo.nome" ng-model="estagiarioInfo.idCargo" class="form-control" name="cargo">
 					    
 					</select>
 					<div ng-show="estagiarioForm.cargo.$invalid && estagiarioForm.cargo.$dirty" class="fieldAlert alert alert-danger ">
@@ -47,13 +48,17 @@
 
 				<div class="col-sm-offset-1 col-sm-3">
 
-					<label for="unidade">Unidade: <span ng-if="estagiarioForm.unidade.$pristine">{{estagiarioInfo.unidade}}</span></label>
+					<label for="unidade">Unidade:</label>  <span ng-if="estagiarioForm.unidade.$pristine">{{estagiarioInfo.unidade}}</span>
     				
-    				<select  ng-disabled="" ng-options="unidade.nome for unidade in getUnidades() track by unidade.nome" ng-change="" ng-required="true" ng-model="estagiarioInfo.unidadeInfo" class="form-control" name="unidade">
+    				<select  ng-disabled="" ng-options="unidade.nome for unidade in unidades track by unidade.id" ng-change="getSetores(estagiarioInfo.unidadeInfo.id);
+    				cargoFieldDisabled=true;
+    				gestorFieldDisabled=true;
+    				estagiarioInfo.setor=null;
+    				estagiarioInfo.cargo=null;
+    				estagiarioInfo.gestor=null;
+    				" ng-model="estagiarioInfo.unidadeInfo" class="form-control" name="unidade">
 					    
 					</select>
-
-
 
 					<div ng-show="estagiarioForm.unidade.$invalid && estagiarioForm.unidade.$dirty" class="fieldAlert alert alert-danger ">
     					Selecione a unidade.
@@ -61,8 +66,16 @@
 
 					<br>
 
-					<label for="setor">Setor: <span ng-if="estagiarioForm.setor.$pristine">{{estagiarioInfo.setor}}</span></label>
-    				<select ng-disabled=""  ng-options="setor.nome for setor in setores track by setor.nome" ng-change="" ng-model="estagiarioInfo.setorInfo" ng-required="true" class="form-control" name="setor">
+					<label for="setor">Setor:</label><span ng-if="estagiarioForm.setor.$pristine"> {{estagiarioInfo.setor}}</span> 
+    				<select ng-disabled=""  ng-options="setor.nome for setor in setores track by setor.nome" ng-change="cargoFieldDisabled=false;
+    				gestorFieldDisabled=false;
+    				estagiarioInfo.cargo=null;
+    				estagiarioInfo.gestor=null;
+    				getCargos(estagiarioInfo.setorInfo.id);
+    				getGestores(estagiarioInfo.setorInfo.id);
+    				estagiarioForm.cargo.$setPristine();
+    				estagiarioForm.gestor.$setPristine();
+    				" ng-model="estagiarioInfo.setorInfo" class="form-control" name="setor">
 					</select>
 					<div ng-show="estagiarioForm.setor.$invalid && estagiarioForm.setor.$dirty" class="fieldAlert alert alert-danger ">
     					Selecione o setor.
@@ -75,17 +88,56 @@
 			</div>
 
 			<div class="row">
-				<div class="col-sm-offset-3 col-sm-3">
-					<div class="checkbox">
-						<label><input ng-disabled="cadastroSuccess" type="checkbox" id="avaliado" ng-model="avaliado">Já foi avaliado</label>
-					</div>
-				</div>
-				<div class="col-sm-offset-2 col-sm-3">
+				<div class="col-sm-3">
 
-					<label for="setor">Gestor:</label>
+					<label class="labelAdmissao" for="dataAdmissao">Admissão:</label><br>
+					<span ng-if="estagiarioForm.dataAdmissao.$pristine"> {{estagiarioInfo.dataAdmissao | date:'dd/MM/yyyy'}} </span><br>
 					
-					<select ng-disabled="" ng-options="gestor.nome for gestor in gestores track by gestor.nome" ng-model="" ng-required="true" class="form-control" name="gestor">
-					    <option value="">{{estagiarioInfo.gestor}}</option>
+
+    				<input ng-disabled="cadastroSuccess"  type="text" ng-minlength="10"  ng-model="estagiarioInfo.dataAdmissao" placeholder="XX/XX/XXXX" class="form-control" name="dataAdmissao" ui-date>	
+
+
+    				<div ng-show="estagiarioForm.dataAdmissao.$error.required && estagiarioForm.dataAdmissao.$dirty" class="fieldAlert alert alert-danger ">
+    					Data necessária.
+    				</div>
+    				<div ng-show="estagiarioForm.dataAdmissao.$error.minlength" class="fieldAlert alert alert-danger ">
+    					Data inválida.
+    				</div>
+    				<br>
+					
+				</div>
+				<div class="col-sm-2">
+					<label class="optionalLabel labelNivel" for="nivel" disabled>Nível:</label> <span ng-if="estagiarioForm.nivel.$pristine"> {{estagiarioInfo.nivel}}</span> <br><br>			
+		    		<select class="optional form-control" id="nivel" name="nivel" ng-model="estagiarioInfo.nivel" ng-required="avaliado">
+					    <option value="1">1</option>
+					    <option value="2">2</option>
+					    <option value="3">3</option>
+					</select>	
+					<div ng-show="estagiarioForm.nivel.$invalid && estagiarioForm.nivel.$dirty" class="fieldAlert alert alert-danger ">
+    					Selecione o nivel.
+    				</div>			
+				
+				</div>
+				<div class="col-sm-2">
+		    		<div class="checkbox">
+						<label><input ng-disabled="cadastroSuccess" ng-checked="estagiarioInfo.avaliado" ng-model="estagiarioInfo.avaliado" type="checkbox" id="avaliado" name="avaliado">Já foi avaliado</label>	
+					</div>
+		    		<label class="optionalLabel" for="dataUltimaAvaliacao">Última Avaliação: </label><br><span ng-if="estagiarioForm.dataUltimaAvaliacao.$pristine"> {{estagiarioInfo.dataUltimaAvaliacao | date:'dd/MM/yyyy'}}</span> <br>
+		    		<input type="text" ng-minlength="10" ng-disabled="!estagiarioInfo.avaliado" ng-model="estagiarioInfo.dataUltimaAvaliacao" placeholder="XX/XX/XXXX" class="optional form-control" name="dataUltimaAvaliacao"  ui-date>	
+
+		    		<div ng-show="estagiarioForm.dataUltimaAvaliacao.$error.required && estagiarioForm.dataUltimaAvaliacao.$dirty" class="fieldAlert alert alert-danger ">
+    					Data necessária.
+    				</div>
+    				<div ng-show="estagiarioForm.dataUltimaAvaliacao.$error.minlength" class="fieldAlert alert alert-danger ">
+    					Data inválida.
+    				</div>
+		    		<br>
+	    		</div>	
+				<div class="col-sm-offset-1 col-sm-3">
+
+					<label for="setor">Gestor:</label> <span ng-if="estagiarioForm.gestor.$pristine"> {{estagiarioInfo.gestor}}</span>
+					<select ng-disabled="gestorFieldDisabled" ng-options="gestor.id as gestor.nome for gestor in gestores track by gestor.nome" ng-model="estagiarioInfo.idGestor" class="form-control" name="gestor">
+					    <option value=""></option>
 					</select>
 
 					<div ng-show="estagiarioForm.setor.$invalid && estagiarioForm.setor.$dirty" class="fieldAlert alert alert-danger ">
@@ -95,79 +147,76 @@
 				</div>				
 				
 			</div>
-
-			<div class="row">
-				<div class="col-sm-2">
-
-					<label class="labelAdmissao" for="dataAdmissao">Admissão:</label>
-    				<input ng-disabled="cadastroSuccess"  type="text" ng-required="true" ng-minlength="10"  ng-model="estagEditado.dataAdmissao" placeholder="XX/XX/XXXX" class="form-control" name="dataAdmissao" value="{{estagiarioInfo.dataAdmissao=(estagiarioInfo.dataAdmissao | date:'dd/MM/yyyy')}}" ui-date>	
-    				<div ng-show="estagiarioForm.dataAdmissao.$error.required && estagiarioForm.dataAdmissao.$dirty" class="fieldAlert alert alert-danger ">
-    					Data necessária.
-    				</div>
-    				<div ng-show="estagiarioForm.dataAdmissao.$error.minlength" class="fieldAlert alert alert-danger ">
-    					Data inválida.
-    				</div>
-    				<br>
-				</div>						
-
-				<div class="col-sm-offset-1 col-sm-2">
-							
-					<label class="optionalLabel" for="dataUltimaAvaliacao" disabled>Última Avaliação:</label>
-		    		<input type="text" ng-required="avaliado" ng-minlength="10" ng-model="estagiario.dataUltimaAvaliacao" placeholder="XX/XX/XXXX" class="optional form-control" name="dataUltimaAvaliacao" ng-disabled="!avaliado" ui-date>	
-
-		    		<div ng-show="estagiarioForm.dataUltimaAvaliacao.$error.required && estagiarioForm.dataUltimaAvaliacao.$dirty" class="fieldAlert alert alert-danger ">
-    					Data necessária.
-    				</div>
-    				<div ng-show="estagiarioForm.dataUltimaAvaliacao.$error.minlength" class="fieldAlert alert alert-danger ">
-    					Data inválida.
-    				</div>
-		    		<br>
-				</div>
-		    	<div class="col-sm-2">
-		    		<label class="optionalLabel labelNivel" for="nivel" disabled>Nível:</label>			
-		    		<select class="optional form-control" id="nivel" name="nivel" ng-model="estagiario.nivel" ng-required="avaliado" ng-disabled="!avaliado">
-					    <option value="">Escolha o Nível</option>
-					    <option value="1">1</option>
-					    <option value="2">2</option>
-					    <option value="3">3</option>
-					</select>	
-					<div ng-show="estagiarioForm.nivel.$invalid && estagiarioForm.nivel.$dirty" class="fieldAlert alert alert-danger ">
-    					Selecione o nivel.
-    				</div>
-	    		</div>	
-			</div>
 			<br><br>
 		
-			<div class="row btnArea">
+			<div class="row btnArea" >
 				<div class="col-sm-2">		
 
-					<button ng-if="!cadastroSuccess" ng-disabled="estagiarioForm.$invalid" class="btn btn-primary btn-block" ng-click="cadastrarEstagiario(estagiario)"><span class="glyphicon glyphicon-ok"></span> Salvar</button>	
-		
-				</div>
-			</div>
-		
-			<div class="row btnArea" ng-if="cadastroSuccess">
-				<div class="col-sm-2">		
-					<button ng-click="editarEstagiarioPage(estagiario.id)" id="editaEstagiario" type="button" class="btnArea__btn btn btn-info btn-block"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
-				</div>
-				<div class="col-sm-2">			
-					<button ng-click="desligarEstagiario(estagiario.id)" id="cadastraEstagiario" type="button" class="btnArea__btn btn btn-danger btn-block"><span class="glyphicon glyphicon-remove"></span> Desligar</button>					
-				</div>
-			</div>
-			<div class="row btnArea" ng-if="cadastroSuccess" >
-				<div class="col-sm-2">			
-					<button id="cadastraEstagiario" type="button" class="btnArea__btn btn btn-primary btn-block"><span class="glyphicon glyphicon-plus"></span> Cadastrar Novo</button>					
-				</div>
-			</div>
-		</form>
+					<button ng-if="!cadastroSuccess" ng-disabled="
+					!((estagiarioInfo.nome && 
+					estagiarioInfo.idCargo && 
+					estagiarioInfo.idGestor &&
+					estagiarioInfo.dataAdmissao &&
+					(!estagiarioInfo.avaliado || (estagiarioInfo.dataUltimaAvaliacao && estagiarioInfo.nivel)))
+					&&
+					(estagiarioForm.nome.$dirty ||
+					estagiarioForm.cargo.$dirty ||
+					estagiarioForm.gestor.$dirty ||
+					estagiarioForm.dataAdmissao.$dirty ||
+					estagiarioForm.avaliado.$dirty ||
+					estagiarioForm.dataUltimaAvaliacao.$dirty ||
+					estagiarioForm.nivel.$dirty))
+					"
+					class="btn btn-primary btn-block" ng-click="openModal('editConfirmation')"><span class="glyphicon glyphicon-ok"></span> Salvar</button>	
 
-			<div class="row btnArea">
+					<button ng-if="cadastroSuccess" onclick="window.location.reload()" id="editaEstagiario" type="button" class="btnArea__btn btn btn-info btn-block"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
+		
+				</div>
+				<div class="col-sm-2">			
+					<button  ng-if="estagiarioInfo.status==1" ng-click="openModal('changeStatusConfirmation')" id="cadastraEstagiario" type="button" class="btnArea__btn btn btn-danger btn-block"><span class="glyphicon glyphicon-remove"></span> Desligar</button>
+
+					<button  ng-if="estagiarioInfo.status==0" ng-click="openModal('changeStatusConfirmation')" id="cadastraEstagiario" type="button" class="btnArea__btn btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Ligar</button>							
+				</div>
+
+			</div>
+		
+			<div class="row btnArea" >
 				<div class="col-sm-2">
-					<button id="voltarEstagiarios" onclick="window.location ='#/listarEstagiarios'" type="button" class="voltar btn btn-default btn-block"><span class="glyphicon glyphicon-chevron-left"></span>Voltar para Listagem</button>
+					<button id="voltarEstagiarios" onclick="window.location ='#/listarEstagiarios'" type="button" class="voltar btn btn-default btn-block"><span class="glyphicon glyphicon-chevron-left"></span>Voltar</button>
 
+				</div>
+				<div class="col-sm-2">			
+					<button ng-if="cadastroSuccess" onclick="window.location ='#/cadastrarEstagiario'" id="cadastraEstagiario" type="button" class="btnArea__btn btn btn-primary btn-block"><span class="glyphicon glyphicon-plus"></span> Cadastrar Novo</button>					
 				</div>
 			</div>
 
+			<div id="editConfirmation" class="modal__background modal__background--closed">
+			  	<div class="modal--confirmation">
+			    	<div class="modal__question">
+			    	 	<p>Tem certeza que deseja modificar as informações de <span class="bold">{{estagiarioInfo.nome}}</span> ?
+			   	  		</p>
+			     		<div class="modal__btnArea">
+				     		<button class="btn btn--modal btn-primary" ng-click="setEstagiario(estagiarioInfo);closeModal('editConfirmation')"><span class="glyphicon glyphicon-ok"></span> Sim</button>
+				     		<button class="btn btn--modal" ng-click="closeModal('editConfirmation')">Cancelar</button>
+			     		</div>
+			     	</div>
+			    </div>
+	 		</div>
 
-		</div>
+	 		<div id="changeStatusConfirmation" class="modal__background modal__background--closed">
+			  	<div class="modal--confirmation">
+			    	<div class="modal__question">
+				     	<p>Tem certeza que deseja <span ng-if="estagiarioInfo.status==1">DESLIGAR </span> <span ng-if="estagiarioInfo.status==0">LIGAR</span> <span class="bold">{{estagiarioInfo.nome}}</span> ?
+				     	</p>
+				     	<div class="modal__btnArea">
+					     	<button class="btn btn--modal btn-primary" ng-click="changeStatusEstagiario(estagiarioInfo.id,estagiarioInfo.status); closeModal('changeStatusConfirmation')"><span class="glyphicon glyphicon-ok"></span> Sim</button>
+					     	<button class="btn btn--modal" ng-click="closeModal('changeStatusConfirmation')">Cancelar</button>
+				     	</div>
+				    </div>
+			    </div>
+	 		</div>
+		</form>
 	</div>
+	
+
+

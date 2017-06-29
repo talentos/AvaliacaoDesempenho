@@ -1,9 +1,9 @@
 angular.module("estagiarios").controller("cadastrarEstagiarioCtrl", function($scope,$http){
 
-		unidades=[];
+		var unidades=[];
 
 		$http({
-			url: '../services/unidades.php',
+			url: 'services/unidades.php',
 			method: "POST",
 			data: {'function' : 'getUnidades'
 			}
@@ -26,7 +26,7 @@ angular.module("estagiarios").controller("cadastrarEstagiarioCtrl", function($sc
 		$scope.getSetores=function(unidade){
 			
 			$http({
-			url: '../services/setores.php',
+			url: 'services/setores.php',
 			method: "POST",
 			data: {'unidade' : unidade,
 					'function' : 'getSetores'					
@@ -49,7 +49,7 @@ angular.module("estagiarios").controller("cadastrarEstagiarioCtrl", function($sc
 			}else{
 
 				$http({
-				url: '../services/gestor.php',
+				url: 'services/gestor.php',
 				method: "POST",
 				data: {'setor' : setor,
 						'function' : 'getGestores'					
@@ -74,13 +74,12 @@ angular.module("estagiarios").controller("cadastrarEstagiarioCtrl", function($sc
 			}else{
 
 				$http({
-				url: '../services/cargo.php',
+				url: 'services/cargo.php',
 				method: "POST",
 				data: {'setor' : setor,
 						'function' : 'getCargos'					
 						}
 				}).then(function(response){
-						console.log(response);
 						$scope.cargos=(response.data);					
 
 				}).catch(function(){
@@ -91,20 +90,19 @@ angular.module("estagiarios").controller("cadastrarEstagiarioCtrl", function($sc
 
 		$scope.cadastrarEstagiario=function(estagiario){
 			$http({
-				url: '../services/estagiario.php',
+				url: 'services/estagiario.php',
 				method: "POST",
 				data: {'estagiario': estagiario,
-						'function' : 'cadastrar'
+						'function' : 'registerEstagiario'
 				 }
 			}).then(function(response){
-			
+				$scope.idEstagiario=response.data;
 				$scope.cadastroSuccess=true;
 				$scope.cadastroError=false;
 
 			}).catch(function(){
 				$scope.cadastroError=true;
-				$scope.cadastroSuccess=false;
-				$scope.estagiario.id="1";				
+				$scope.cadastroSuccess=false;			
 			});
 			
 		};

@@ -29,7 +29,12 @@ angular.module("estagiarios").directive("uiDate", function(){
 				}
 				return value;
 			});
-			
+
+     		ctrl.$formatters.push(function(value) {
+	        	date = new Date(value);
+
+    			return null;
+      		});			
 		}
 	};
 

@@ -1,24 +1,88 @@
-angular.module("estagiarios").controller("avaliarEstagiario", function($scope){
-	
-	var questoes=new Array();		
+angular.module("estagiarios").controller("avaliarEstagiarioCtrl", function($scope, $routeParams,$http) {
+    idEstagiario = $routeParams.id;
 
-	var texto="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis provident blanditiis, facilis quasi cum architecto accusamus, deleniti perferendis placeat hic beatae iure quis facere quibusdam soluta est in alias voluptatem.";
 
-	var indicador="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic, aspernatur, excepturi. Odit nisi tempora non magnam velit iure eaque nesciunt, consequatur facere, minus enim aspernatur animi repudiandae earum architecto ea!";
-			
-	questoes=[
-			{competencia: "Competencia 1" , texto: texto, indicador1: indicador, indicador2: indicador, indicador3: indicador, indicador4: indicador},
-			{competencia: "Competencia 2" , texto: texto, indicador1: indicador, indicador2: indicador, indicador3: indicador, indicador4: indicador},
-			{competencia: "Competencia 3" , texto: texto, indicador1: indicador, indicador2: indicador, indicador3: indicador, indicador4: indicador},
-			{competencia: "Competencia 4" , texto: texto, indicador1: indicador, indicador2: indicador, indicador3: indicador, indicador4: indicador},
-			{competencia: "Competencia 5" , texto: texto, indicador1: indicador, indicador2: indicador, indicador3: indicador, indicador4: indicador},
-			{competencia: "Competencia 6" , texto: texto, indicador1: indicador, indicador2: indicador, indicador3: indicador, indicador4: indicador}
-	];
+    $scope.avaliarEstagiario= function(estagiario){
 
-	$scope.getQuestoes=function(){
+    	window.location ='#/avaliarEstagiario/'+estagiario;
+
+    };
+
+    $http({
+			url: 'services/estagiario.php',
+			method: "POST",
+			data: {'idEstagiario' : idEstagiario,
+					'function' : 'getEstagiario'					
+					}
+		}).then(function(response){
+
+			$scope.estagiarioInfo=(response.data[0]);
 		
-		return questoes;
-	};
+			//getQuestoes(response.data[0].cargo);
+			getQuestoes("Designer EAD"); //selecionar os cargos
+
+
+		}).catch(function(error){
+			console.log("Erro de comunicação com o banco1");
+			console.log(error);					
+		});
+
+		//--- ler as questões
+	function getQuestoes(cargo){
+
+
+		var questoes=new Array();		
+
+		var indicadores=[];
+		
+
+		$http({
+			url: 'services/indicadores.php',
+			method: "POST",
+			data: {'cargo' : cargo,
+					'function' : 'getIndicadores'					
+					}
+			}).then(function(response){
+
+					indicadores=(response.data[0]);
+
+					var indicador1=[indicadores.indicadorTecnica,indicadores.descTecnica1,
+									indicadores.descTecnica2,indicadores.descTecnica3,
+									indicadores.descTecnica4,indicadores.pesoTecnica];
+
+					var indicador2=[indicadores.indicadorMotivacao,indicadores.descMotivacao1,
+									indicadores.descMotivacao2,indicadores.descMotivacao3,
+									indicadores.descMotivacao4,indicadores.pesoMotivacao];
+
+					var indicador3=[indicadores.indicadorOAprendizado,indicadores.descOAprendizado1,
+									indicadores.descOAprendizado2,indicadores.descOAprendizado3,
+									indicadores.descOAprendizado4,indicadores.pesoOAprendizado];
+
+					var indicador4=[indicadores.indicadorFCliente,indicadores.descFCliente1,
+									indicadores.descFCliente2,indicadores.descFCliente3,
+									indicadores.descFCliente4,indicadores.pesoFCliente];
+
+					var indicador5=[indicadores.indicadorCResultado,indicadores.descCResultado1,
+									indicadores.descCResultado2,indicadores.descCResultado3,
+									indicadores.descCResultado4,indicadores.pesoCResultado];
+
+					var indicador6=[indicadores.indicadorTEquipe,indicadores.descTEquipe1,
+									indicadores.descTEquipe2,indicadores.descTEquipe3,
+									indicadores.descTEquipe4,indicadores.pesoTEquipe];
+
+					indicadores=[indicador1,indicador2,indicador3,indicador4,indicador5,indicador6];
+
+					$scope.indicadores=indicadores;			
+
+			}).catch(function(){
+					console.log("Erro de comunicação com o banco");				
+			});
+
+	}
+
+	$scope.getIndicadores=function(cargo){
+		return indicadores;
+	}
 
 	$scope.current = 0;
 

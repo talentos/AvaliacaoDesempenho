@@ -28,10 +28,51 @@ a:link{
 label{
 	line-height: 15px;
 }
+.bold{
+	font-weight: bold;
+}
 
 .btn{
 	font-weight: bold;
 }
+
+	.btn--modal{
+		display: inline-block;
+		width:45%;
+	}
+
+.modal__background{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height: 100%;
+	background-color:rgba(0,0,0,.5);
+}
+.modal__background--closed{
+	display: none;
+}
+.modal__btnArea{
+	display: -webkit-flex;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 40px;
+}
+	.modal--confirmation{
+		display: block;
+		position: fixed;
+		
+		left:50%;
+		margin-left: -170px;
+		max-width: 340px;
+		width:100%;
+
+		top:50%;
+		margin-top: -150px;
+		padding: 30px;
+		background-color:white;
+		border-radius: 8px;
+	}
 
 /*-------------Estagiários-------------------*/
 
@@ -75,12 +116,28 @@ label{
 /*Input Placeholders*/
  
 /*Tabela de Estagiarios*/
+
 .table-responsive{
-	display: block;
-	height: 400px;
+	display: block;	
 	width: 100%;
 }
+.viewEstagiarios__table__header{
+	margin-top: 30px;
+	font-size: .95em;
+	overflow-x: hidden;
+}
+.viewEstagiarios__table__header table{
+	margin:0;
+}
+.viewEstagiarios__table{
+	margin: 0;
+	text-align: left;
+	height: 400px;
+}
+.viewEstagiarios__table table{
+	margin:0;
 
+}
 .statusLabel{
 	margin:0;
 	padding: 0;
@@ -94,22 +151,18 @@ label{
 	font-size: .8em;
 }
 
-.viewEstagiarios__table{
-	margin-top: 20px;
-	text-align: left;
-}
-
 .viewEstagiarios__table__labels th{
 	background-color: #bad6ef;
-	
+	margin: 0;	
 }
+
 .viewEstagiarios__Table__options span{
 	font-size: 1.3em;
 	cursor: pointer;
-	margin:0 4px;
+	
 }
 .relatorioIcon{
-	color:#f2cf6d;
+	color:#efc44a;
 }
 .avaliarIcon{
 	color:#8dcc74;
@@ -120,11 +173,11 @@ label{
 .desligarIcon{
 	color:#f2a7a7;
 }
+.reativarIcon{
+	color:#8dcc74;
+}
 @media (max-width: 768px) {
-	td .glyphicon{
-		font-size: 3em;
-		margin:10px;
-	}
+	
 }
 /*Desligamento Estagiario*/
 .estagiarioName{
@@ -170,14 +223,18 @@ label{
 	}
 
 }
+.checkbox{
+	margin:0;
+	margin-top: -20px;
+	margin-bottom: -14px;
+	padding: 0;
+}
 /*------------avaliarEstagiario---------------*/
 
 .avaliacaoForm{
 	margin-top: 50px;
 }
-.avaliacaoForm__text{
-	
-}
+
 
 .indicadorText{
 	display:inline-block;

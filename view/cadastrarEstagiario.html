@@ -71,12 +71,49 @@
 			</div>
 
 			<div class="row">
-				<div class="col-sm-offset-3 col-sm-3">
+				<div class="col-sm-2">
+					<label class="labelAdmissao" for="dataAdmissao">Admissão:</label>
+    				<input ng-disabled="cadastroSuccess"  type="text" ng-required="true" ng-minlength="10" ng-model="estagiario.dataAdmissao" placeholder="XX/XX/XXXX" class="form-control" name="dataAdmissao" ui-date>	
+    				<div ng-show="estagiarioForm.dataAdmissao.$error.required && estagiarioForm.dataAdmissao.$dirty" class="fieldAlert alert alert-danger ">
+    					Data necessária.
+    				</div>
+    				<div ng-show="estagiarioForm.dataAdmissao.$error.minlength" class="fieldAlert alert alert-danger ">
+    					Data inválida.
+    				</div>
+    				<br>
+				</div>	
+				<div class="col-sm-2">	
+					<label class="optionalLabel labelNivel" for="nivel" disabled>Nível:</label>			
+		    		<select class="optional form-control" id="nivel" name="nivel" ng-model="estagiario.nivel" ng-required="true">
+					    <option value="">Escolha o Nível</option>
+					    <option value="1">1</option>
+					    <option value="2">2</option>
+					    <option value="3">3</option>
+					</select>	
+					<div ng-show="estagiarioForm.nivel.$invalid && estagiarioForm.nivel.$dirty" class="fieldAlert alert alert-danger ">
+    					Selecione o nivel.
+    				</div>		
+					
+				</div>
+
+				<div class="col-sm-offset-1 col-sm-2">
 					<div class="checkbox">
 						<label><input ng-disabled="cadastroSuccess" type="checkbox" id="avaliado" ng-model="avaliado">Já foi avaliado</label>
 					</div>
+					<label class="optionalLabel" for="dataUltimaAvaliacao" disabled>Última Avaliação:</label>
+		    		<input type="text" ng-required="avaliado" ng-minlength="10" ng-model="estagiario.dataUltimaAvaliacao" placeholder="XX/XX/XXXX" class="optional form-control" name="dataUltimaAvaliacao" ng-disabled="!avaliado" ui-date>	
+
+		    		<div ng-show="estagiarioForm.dataUltimaAvaliacao.$error.required && estagiarioForm.dataUltimaAvaliacao.$dirty" class="fieldAlert alert alert-danger ">
+    					Data necessária.
+    				</div>
+    				<div ng-show="estagiarioForm.dataUltimaAvaliacao.$error.minlength" class="fieldAlert alert alert-danger ">
+    					Data inválida.
+    				</div>
+		    		<br>
 				</div>
-				<div class="col-sm-offset-2 col-sm-3">
+
+				
+				<div class="col-sm-offset-1 col-sm-3">
 
 					<label for="setor">Gestor:</label>
 					
@@ -92,45 +129,7 @@
 				
 			</div>
 
-			<div class="row">
-				<div class="col-sm-2">
-					<label class="labelAdmissao" for="dataAdmissao">Admissão:</label>
-    				<input ng-disabled="cadastroSuccess"  type="text" ng-required="true" ng-minlength="10" ng-model="estagiario.dataAdmissao" placeholder="XX/XX/XXXX" class="form-control" name="dataAdmissao" ui-date>	
-    				<div ng-show="estagiarioForm.dataAdmissao.$error.required && estagiarioForm.dataAdmissao.$dirty" class="fieldAlert alert alert-danger ">
-    					Data necessária.
-    				</div>
-    				<div ng-show="estagiarioForm.dataAdmissao.$error.minlength" class="fieldAlert alert alert-danger ">
-    					Data inválida.
-    				</div>
-    				<br>
-				</div>						
-
-				<div class="col-sm-offset-1 col-sm-2">
-							
-					<label class="optionalLabel" for="dataUltimaAvaliacao" disabled>Última Avaliação:</label>
-		    		<input type="text" ng-required="avaliado" ng-minlength="10" ng-model="estagiario.dataUltimaAvaliacao" placeholder="XX/XX/XXXX" class="optional form-control" name="dataUltimaAvaliacao" ng-disabled="!avaliado" ui-date>	
-
-		    		<div ng-show="estagiarioForm.dataUltimaAvaliacao.$error.required && estagiarioForm.dataUltimaAvaliacao.$dirty" class="fieldAlert alert alert-danger ">
-    					Data necessária.
-    				</div>
-    				<div ng-show="estagiarioForm.dataUltimaAvaliacao.$error.minlength" class="fieldAlert alert alert-danger ">
-    					Data inválida.
-    				</div>
-		    		<br>
-				</div>
-		    	<div class="col-sm-2">
-		    		<label class="optionalLabel labelNivel" for="nivel" disabled>Nível:</label>			
-		    		<select class="optional form-control" id="nivel" name="nivel" ng-model="estagiario.nivel" ng-required="avaliado" ng-disabled="!avaliado">
-					    <option value="">Escolha o Nível</option>
-					    <option value="1">1</option>
-					    <option value="2">2</option>
-					    <option value="3">3</option>
-					</select>	
-					<div ng-show="estagiarioForm.nivel.$invalid && estagiarioForm.nivel.$dirty" class="fieldAlert alert alert-danger ">
-    					Selecione o nivel.
-    				</div>
-	    		</div>	
-			</div>
+			
 			<br><br>
 		
 			<div class="row btnArea">
@@ -141,19 +140,19 @@
 				</div>
 			</div>
 		
-			<div class="row btnArea" ng-if="cadastroSuccess">
-				<div class="col-sm-2">		
-					<button ng-click="editarEstagiarioPage(estagiario.id)" id="editaEstagiario" type="button" class="btnArea__btn btn btn-info btn-block"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
+			<div class="row btnArea" ng-if="cadastroSuccess" ng-controller="editarEstagiarioCtrl">
+				<div class="col-sm-2">	
+					<button ng-click="editarEstagiario(idEstagiario)" type="button" class="btnArea__btn btn btn-info btn-block"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
 				</div>
 				<div class="col-sm-2">			
-					<button ng-click="cadastrarNovoEstagiarioPage()" id="cadastraEstagiario" type="button" class="btnArea__btn btn btn-primary btn-block"><span class="glyphicon glyphicon-plus"></span> Cadastrar Novo</button>					
+					<button onclick="window.location.reload()" id="cadastraEstagiario" type="button" class="btnArea__btn btn btn-primary btn-block"><span class="glyphicon glyphicon-plus"></span> Cadastrar Novo</button>					
 				</div>
 			</div>
 		</form>
 
 			<div class="row btnArea">
 				<div class="col-sm-2">
-					<button id="voltarEstagiarios" type="button" onclick="window.location ='#/listarEstagiarios'" class="voltar btn btn-default btn-block"><span class="glyphicon glyphicon-chevron-left"></span>Voltar para Listagem</button>
+					<button id="voltarEstagiarios" type="button" onclick="window.location ='#/listarEstagiarios'" class="voltar btn btn-default btn-block"><span class="glyphicon glyphicon-chevron-left"></span>Voltar</button>
 
 				</div>
 			</div>
